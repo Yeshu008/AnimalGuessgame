@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Color Identification Game - Score</title>
+  <style >
+    #scorebody{
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 200px;
+    }
+
+    #score-display {
+      font-size: 36px;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 5px rgb(218, 182, 51);
+      color: rgb(210, 67, 67);
+      margin-bottom: 50px;
+
+    }
+    #homebtn{
+      border-radius: 5px;
+      font-size: 26px;
+      background-color: rgb(78, 166, 93);
+
+    }
+    #detail-score{
+    font-size: 30px;
+    margin-bottom: 40px;
+    }
+  </style>
+</head>
+<body id="scorebody">
+  <div id="score-display">Game Over!!</div>
+<div id="detail-score">Your Score: <span id="final-score"></span></div>
+<button onclick="startAgain()" id="homebtn">Home</button>
+
+<script>
+  // Retrieve the score from local storage
+  var audio = new Audio('success.mp3');
+  audio.play();
+  const score = localStorage.getItem('score');
+
+  // Display the score on the page
+  document.getElementById('final-score').textContent = score;
+
+  function startAgain() {
+    // Clear the stored score
+    localStorage.removeItem('score');
+
+    // Navigate back to the game page
+    window.location.href = 'g4.html';
+  }
+</script>
+
+</body>
+</html>

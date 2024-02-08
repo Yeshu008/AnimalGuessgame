@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Color Identification Game</title>
+  <style>
+    #animalmain{
+      font-family: Arial, sans-serif;
+      text-align:center;
+      background-image: url("back.jpg");
+      background-repeat:no-repeat;
+      background-position: center;
+      background-attachment: fixed;
+      background-size:100%;
+      
+     
+    }
+
+    #color-display {
+      font-size: 45px;
+      margin-bottom: 20px;
+      margin-top: 150px;
+      padding: 10px;
+      text-shadow: 2px 2px 5px rgb(218, 182, 51);
+    }
+
+    .color-display-box {
+      color: rgb(210, 67, 67);
+      margin: 20px auto;
+    }
+
+    .option-btn {
+      width: 180px; /* Adjust width as needed */
+      height: 180px; /* Adjust height as needed */
+      margin: 20px;
+      border: 5px solid rgb(74, 152, 76);
+    border-radius: 6px;
+      margin-top: 40px;
+      cursor: pointer;
+    }
+    #start-btn{
+      border-radius: 2%;
+      font-size: 28px;
+      margin-top: 60px;
+      border-radius:5px;
+      background-color: rgb(95, 182, 89);
+    }
+
+    #score {
+      margin-top: 60px;
+      font-size: 20px;
+    }
+    #randw{
+        color: rgb(124, 99, 61);
+        font-size: 25px;
+    }
+    #audio {
+      display: none;
+    }
+  </style>
+</head>
+<body id="animalmain">
+
+<audio id="audio"></audio>
+<audio id="background-audio" loop autoplay>
+  <source src="startsound.mp3" type="audio/mp3">
+</audio>
+<div id="color-display" class="color-display-box">click <strong>'START'</strong> to begin the game!</div>
+<button id="start-btn" onclick="startGame()">START</button>
+
+<div id="options-container"></div>
+<div id="score"><strong>SCORE:</strong> 0</div>
+<div id="randw"></div>
+
+<script>
+  const colors = ["cat", "dog", "horse", "lion", "cow","chicken"];
+  let correctColor;
+  let score = 0;
+  let correctCount = 0;
+  let wrongCount = 0;
+  let trialCount = 0;
+  const backgroundAudio = document.getElementById('background-audio');
+  function startGame() {
+    // Hide the start button
+    backgroundAudio.pause();
+    document.getElementById('start-btn').style.display = 'none';
+    resetScore();
+    displayNextColor();
+  }
+
+  function resetScore() {
+    score = 0;
+    correctCount = 0;
+    wrongCount = 0;
+    trialCount = 0;
+    updateScoreDisplay();
+  }
+
+  function displayNextColor() {
+    if (trialCount >= 10) {
+      endGame();
+      return;
+    }
+
+    // Increment the trial count
+    trialCount++;
+
+    // Pick a random color from the array
+    correctColor = colors[Math.floor(Math.random() * colors.length)];
+
+    // Display the chosen color
+    document.getElementById('color-display').style.backgroundColor = correctColor;
+    document.getElementById('color-display').textContent = "Guess the animal ?";
+
+    // Play audio for the chosen color
+    playAudio(correctColor);
+
+    // Display four random options
+    displayOptions();
+  }
+
+  function playAudio(color) {
+    const audio = document.getElementById('audio');
+    audio.src = `${color}.wav`;
+    audio.play();
+  }
+
+  function displayOptions() {
+    const optionsContainer = document.getElementById('options-container');
+    optionsContainer.innerHTML = '';
+
+    // Shuffle the colors array and pick three random options
+    const shuffledColors = shuffleArray(colors);
+    const options = shuffledColors.slice(0, 4);
+
+    // Ensure the correct color is among the options
+    if (!options.includes(correctColor)) {
+      const randomIndex = Math.floor(Math.random() * 4);
+      options[randomIndex] = correctColor;
+    }
+
+    // Create image buttons for each option
+    options.forEach(option => {
+      const optionButton = document.createElement('img');
+      optionButton.classList.add('option-btn');
+      optionButton.src = `${option}.jpg`; // Assuming you have image files with names like 'red.png'
+      optionButton.alt = option;
+      optionButton.onclick = () => checkAnswer(option);
+      optionsContainer.appendChild(optionButton);
+    });
+  }
+
+  function checkAnswer(selectedColor) {
+    if (selectedColor === correctColor) {
+      score++;
+      correctCount++;
+    } else {
+      wrongCount++;
+    }
+
+    displayNextColor();
+    updateScoreDisplay();
+  }
+
+  function updateScoreDisplay() {
+    document.getElementById('score').textContent = `Score: ${score}`;
+    document.getElementById('randw').textContent = ` (Correct: ${correctCount}, Wrong: ${wrongCount})`
+  }
+
+  function endGame() {
+    localStorage.setItem('score', score);
+    // Show the start button again
+    window.location.href = 'score.html'; // Make sure 'score.html' exists or adjust the path
+    resetScore();
+  }
+
+  function shuffleArray(array) {
+    const shuffledArray = array.slice();
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+    }
+    return shuffledArray;
+  }
+</script>
+
+</body>
+</html>

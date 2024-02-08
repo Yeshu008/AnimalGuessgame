@@ -1,0 +1,46 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-image: url("back.jpg");
+    background-repeat:no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    background-size:100%;
+    
+   
+  }
+
+  #color-display {
+    font-size: 30px;
+    margin-bottom: 20px;
+    margin-top: 180px;
+    padding: 10px;
+    text-shadow: 2px 2px 5px rgb(218, 182, 51);
+  }
+
+  .color-display-box {
+    color: rgb(210, 67, 67);
+    margin: 20px auto;
+    
+    
+  }
+
+  .option-btn {
+    width: 100px; /* Adjust width as needed */
+    height: 100px; /* Adjust height as needed */
+    margin: 20px;
+    border: 2px solid rgb(210, 67, 67);
+  border-radius: 5px;
+    margin-top: 40px;
+    cursor: pointer;
+  }
+  #start-btn{
+    border-radius: 2%;
+    font-size: 26px;
+    background-color: rgb(78, 166, 93);
+  }
+
+  #score {
+    margin-top: 130px;
+    font-size: 20px;
+  }
